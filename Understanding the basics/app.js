@@ -1,12 +1,14 @@
 //Creating a Node Server
 
 const http = require("http");
+const fs = require("fs"); //it allows us to work with file system
 
 const server = http.createServer((req, res) => {
   // console.log(req.url, req.method, req.headers);
   // process.exit();
   const url = req.url;
   if (url === "/") {
+    //if url is / nothing
     // res.setHeader("Content-Type", "text/html");
     res.write("<html>");
     res.write("<head><title>My first page</title></head>");
@@ -15,6 +17,11 @@ const server = http.createServer((req, res) => {
     );
     res.write("</html>");
     return res.end();
+  }
+  if (url === "/message" && method === "POST") {
+    fs.writeFileSync("message.txt", "DUMMY");
+    res.statusCode = 302;
+    res.setHeader("Location", "/");
   }
   res.setHeader("Content-Type", "text/html");
   res.write("<html>");
